@@ -1,30 +1,27 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
-import Home from "../views/Home.vue";
+import routes from "./routes";
 
 Vue.use(VueRouter);
 
-const routes = [
-  {
-    path: "/",
-    name: "Home",
-    component: Home,
-  },
-  {
-    path: "/about",
-    name: "About",
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () =>
-      import(/* webpackChunkName: "about" */ "../views/About.vue"),
-  },
-];
-
-const router = new VueRouter({
-  mode: "history",
-  base: process.env.BASE_URL,
+export default new VueRouter({
   routes,
-});
+  // mode: 'history',
+  // base: '/base/',
+  linkActiveClass: "active-link",
+  linkExactActiveClass: "exact-active-link",
+  // scrollBehavior (to, from, savedPosition) {
+  //   if (savedPosition) {
+  //     return savedPosition
+  //   } else {
+  //     return { x: 0, y: 0 }
+  //   }
+  // },
+  // fallback: true // 为了适配history路由模式。默认为true
+  // parseQuery (query) {
 
-export default router;
+  // },
+  // stringifyQuery (queryobj) {
+
+  // }
+});

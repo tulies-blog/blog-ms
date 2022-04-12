@@ -1,0 +1,73 @@
+@import './comm.scss';
+// 工作台样式
+@import '@/assets/css/main/desktop-layout.scss';
+
+
+
+// 403,404,500样式
+.antd-pro-components-exception-index-exception {
+  display: flex;
+  align-items: center;
+  height: 80%;
+  min-height: 500px;
+}
+.antd-pro-components-exception-index-exception
+  .antd-pro-components-exception-index-imgBlock {
+  flex: 0 0 50%;
+  width: 62.5%;
+  padding-right: 152px;
+  zoom: 1;
+}
+.antd-pro-components-exception-index-exception
+  .antd-pro-components-exception-index-imgEle {
+  float: right;
+  width: 100%;
+  max-width: 430px;
+  height: 360px;
+  background-repeat: no-repeat;
+  background-position: 50% 50%;
+  background-size: contain;
+}
+.antd-pro-components-exception-index-exception
+  .antd-pro-components-exception-index-content {
+  flex: auto;
+}
+.antd-pro-components-exception-index-exception
+  .antd-pro-components-exception-index-content
+  .antd-pro-components-exception-index-desc {
+  margin-bottom: 16px;
+  color: rgba(0, 0, 0, 0.45);
+  font-size: 20px;
+  line-height: 28px;
+}
+.ant-btn {
+  line-height: 1.499;
+  position: relative;
+  display: inline-block;
+  font-weight: 400;
+  white-space: nowrap;
+  text-align: center;
+  background-image: none;
+  box-shadow: 0 2px 0 rgba(0, 0, 0, 0.015);
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.645, 0.045, 0.355, 1);
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  touch-action: manipulation;
+  height: 32px;
+  padding: 0 15px;
+  font-size: 14px;
+  border-radius: 4px;
+  color: rgba(0, 0, 0, 0.65);
+  background-color: #fff;
+  border: 1px solid #d9d9d9;
+}
+.ant-btn-primary {
+  color: #ffffff;
+  background-color: #1890ff;
+  border-color: #1890ff;
+  text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.12);
+  box-shadow: 0 2px 0 rgba(0, 0, 0, 0.045);
+}

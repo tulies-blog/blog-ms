@@ -1,11 +1,23 @@
 import Vue from "vue";
 import Vuex from "vuex";
 
-Vue.use(Vuex);
+import article from "./modules/article";
+import resource from "./modules/resource";
+import category from "./modules/category";
+import user from "./modules/user";
+import tag from "./modules/tag";
+import comment from "./modules/comment/index";
 
+Vue.use(Vuex);
+const debug = process.env.NODE_ENV !== "production";
 export default new Vuex.Store({
-  state: {},
-  mutations: {},
-  actions: {},
-  modules: {},
+  strict: debug,
+  modules: {
+    article,
+    resource,
+    category,
+    user,
+    tag,
+    comment,
+  },
 });

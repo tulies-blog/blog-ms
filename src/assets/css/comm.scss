@@ -1,0 +1,185 @@
+
+@import '@/assets/css/config.scss';
+#app-root{
+  height: 100%;
+}
+// 公共默认样式
+a {
+  text-decoration: none;
+}
+a.default, .default-link {
+  color: #409EFF;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+a.default:focus,
+a.default:hover,
+.default-link:focus,
+.default-link:hover {
+  color: #66b1ff
+}
+
+a.default:active,
+.default-link:active {
+  color: #3a8ee6
+}
+
+
+.clearfix:before,
+.clearfix:after {
+  display: table;
+  content: "";
+}
+
+.clearfix:after {
+  clear: both
+}
+
+
+// 一些公共样式
+.alignLeft{
+  text-align: left;
+}
+.alignCenter{
+  text-align: center;
+}
+.alignRight{
+  text-align: right;
+}
+
+.m-l-5, .el-button.m-l-5{
+  margin-left: 5px;
+}
+.m-r-5, .el-button.m-r-5{
+  margin-left: 5px;
+}
+
+
+.split-line {
+  border-bottom: 1px solid $dashedColor;
+  &.dashed {
+    border-bottom: 1px dashed $dashedColor;
+  }
+}
+
+
+// 固定悬挂
+.sticky {
+  position: -webkit-sticky;
+  position: sticky;
+}
+
+
+
+/* 重置element ui 样式 */
+.el-button{
+  font-weight: normal;
+}
+.el-dialog__body {
+  display: flex;
+  justify-content: center;
+}
+
+// danger
+
+.el-input.primary .el-input__inner{
+  color:#409EFF;
+}
+.el-input.danger .el-input__inner{
+    color:#F56C6C
+}
+.el-input.warning .el-input__inner{
+  color:#E6A23C
+}
+.el-input.success .el-input__inner{
+  color:#67C23A;
+
+}
+// .el-table--medium th{
+//   // padding:ss 0 5px;
+// }
+
+.color-primary{
+  color:#409EFF;
+}
+.color-danger{
+  color:#F56C6C;
+}
+.color-warning{
+  color:#E6A23C;
+}
+.color-success{
+  color:#67C23A;
+}
+.color-info{
+  color:#909399;
+}
+
+
+.el-table__header-wrapper{
+  background-color:#F6F8F9;
+}
+
+.el-table-filter .el-checkbox{
+  font-weight:400;
+}
+
+.el-table thead{
+  color:#444;
+  font-weight:400;
+}
+
+
+/***  element ui 样式重写 ****/
+.el-dropdown-menu__item{
+  white-space:nowrap;
+}
+.el-dropdown-link {
+  font-size: 12px;
+  margin-left: 5px;
+}
+.el-table thead{
+  color:#444;
+  // font-weight:400;
+}
+.el-table .cell,.el-table th div{
+  padding: 0 5px;
+}
+// .el-table th>.cell{
+//   font-weight:400;
+// }
+
+.el-tabs__item{
+  // font-size:15px;
+  font-weight: 400;
+}
+
+// .el-table--medium td{
+//   padding: 5px 0;
+// }
+
+
+.el-drawer__header{
+  margin-bottom: 20px;
+}
+
+
+.el-menu--collapse .el-menu-item [class^=el-icon-], .el-menu--collapse .el-submenu>.el-submenu__title [class^=el-icon-] {
+  margin: 0;
+  vertical-align: middle;
+  width: 24px;
+  text-align: center;
+}
+
+.el-menu--collapse .el-menu-item span, .el-menu--collapse .el-submenu.el-submenu__title span {
+  height: 0;
+  width: 0;
+  overflow: hidden;
+  visibility: hidden;
+  display: inline-block;
+}
+
+.el-menu--collapse .el-menu-item .el-submenu__icon-arrow, .el-menu--collapse .el-submenu>.el-submenu__title .el-submenu__icon-arrow {
+  display: none;
+}

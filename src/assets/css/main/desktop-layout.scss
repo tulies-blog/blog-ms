@@ -1,0 +1,51 @@
+@import '@/assets/css/config.scss';
+
+
+.table-constainer {
+  width: 100%;
+  position: relative;
+  overflow: hidden;
+
+  .tableListOperator {
+    margin-bottom: 16px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    .el-checkbox-group{
+      display: flex;
+      flex-direction: column;
+    }
+    // .el-input-group__prepend {
+    //   background-color: #fff;
+    // }
+
+  }
+  // .table-list{
+  //   width: 100%;
+  // }
+  .table-bd {
+    .table-bd_left {
+      float: left;
+      padding: 10px 0;
+    }
+    .table-bd_right {
+      float: right;
+      padding: 10px 0;
+    }
+  }
+}
+
+.search-constainer {
+  border: 1px #b3d8ff dashed;
+  padding: 15px 15px 0 15px;
+  margin: 5px 0 10px 0;
+  background: #ecf5ff;
+  .el-form-item__label{
+    font-size: 12px;
+    color: #666;
+  }
+}
+
+.ableListOperator-popover.el-popover{
+  min-width: auto;
+}
