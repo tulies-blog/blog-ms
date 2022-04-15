@@ -5,8 +5,8 @@ export default class UserService extends Base {
     return resp;
   }
   async deleteTopic(id) {
-    const resp = await this.request(`/comment/topics/{id}`, {
-      method: "POST",
+    const resp = await this.request(`/comment/topics/${id}`, {
+      method: "DELETE",
     });
     return resp;
   }

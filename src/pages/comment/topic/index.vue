@@ -17,12 +17,12 @@
                 @click="handleCommandBatch('offline')"
                 >锁定</el-button
               >
-              <!-- <el-button
+              <el-button
                 type="plain"
                 icon="el-icon-delete"
                 @click="handleCommandBatch('delete')"
                 >删除</el-button
-              > -->
+              >
             </div>
             <div class="right-operator">
               <el-input
@@ -164,11 +164,11 @@
                       <i class="el-icon-more" />
                     </span>
                     <el-dropdown-menu slot="dropdown">
-                      <!-- <el-dropdown-item command="delete">删除</el-dropdown-item> -->
                       <el-dropdown-item command="online">启用</el-dropdown-item>
                       <el-dropdown-item command="offline"
                         >锁定</el-dropdown-item
                       >
+                      <el-dropdown-item command="delete">删除</el-dropdown-item>
                     </el-dropdown-menu>
                   </el-dropdown>
                 </div>
