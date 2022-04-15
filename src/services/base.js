@@ -28,7 +28,7 @@ export default class BaseService {
     };
     const options = {
       ...defaultOptions,
-      url: `/api${url}`,
+      url: `/api/ms${url}`,
       ...option,
     };
     // console.log(options)
@@ -42,7 +42,7 @@ export default class BaseService {
         const status = e.response.status;
         if (status === 401) {
           store.dispatch({
-            type: "uc/logout",
+            type: "user/logout",
           });
           return;
         }

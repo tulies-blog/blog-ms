@@ -1,5 +1,5 @@
 {
-  "name": "blog-ms-client-next",
+  "name": "blog-ms",
   "version": "0.1.0",
   "private": true,
   "scripts": {
@@ -53,7 +53,7 @@
       "parser": "babel-eslint"
     },
     "rules": {
-      "prettier/prettier":"error",
+      "prettier/prettier": "error",
       "no-unused-vars": "off"
     }
   },

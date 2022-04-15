@@ -31,7 +31,7 @@ const actions = {
     const { ids } = payload;
     let count = 0;
     for (const id of ids) {
-      const resp = await commentService.deleteReply({ id });
+      const resp = await commentService.deleteReply(id);
       if (resp.code === 0) {
         count = count + 1;
       }
@@ -48,10 +48,7 @@ const actions = {
     const { ids, status } = payload;
     let count = 0;
     for (const id of ids) {
-      const resp = await commentService.changeReplyStatus({
-        id,
-        status,
-      });
+      const resp = await commentService.changeReplyStatus(id, status);
       if (resp.code === 0) {
         count = count + 1;
       }

@@ -66,7 +66,7 @@ export default {
             if (loginresp.code === 0) {
               self.$router.push("/");
             } else {
-              self.$message.error(loginresp.msg);
+              self.$message.error(loginresp.message);
             }
           },
         });

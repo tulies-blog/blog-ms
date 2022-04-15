@@ -31,7 +31,7 @@ const actions = {
     const { ids } = payload;
     let count = 0;
     for (const id of ids) {
-      const resp = await articleService.delete({ id });
+      const resp = await articleService.delete(id);
       if (resp.code === 0) {
         count = count + 1;
       }
@@ -59,10 +59,7 @@ const actions = {
     const { ids, status } = payload;
     let count = 0;
     for (const id of ids) {
-      const resp = await articleService.changeStatus({
-        id,
-        status,
-      });
+      const resp = await articleService.changeStatus(id, status);
       if (resp.code === 0) {
         count = count + 1;
       }

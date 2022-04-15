@@ -81,7 +81,8 @@
               fixed
               prop="uid"
               label="用户ID"
-              width="100"
+              width="140"
+              show-overflow-tooltip
             ></el-table-column>
             <el-table-column
               prop="nickname"

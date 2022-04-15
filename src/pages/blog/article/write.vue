@@ -3,7 +3,7 @@
     <div slot="headerAction">
       <div>
         <!-- <el-button  icon="el-icon-setting"></el-button> -->
-        <el-button type="primary" @click="handlePublish">保存并发布</el-button>
+        <el-button type="primary" @click="handlePublish">发布文章</el-button>
       </div>
     </div>
     <div class="basic-page-content">
@@ -26,13 +26,12 @@
             </div>
           </div>
           <div style="width: 160px; overflow: hidden; height: 95px">
-            <!-- action="#" -->
             <el-upload
+              :action="uploadAction"
               :file-list="posterFile"
               list-type="picture-card"
               :limit="1"
               accept="image/*"
-              :action="uploadAction"
               :headers="uploadHeaders"
               :on-preview="handlePictureCardPreview"
               :on-success="handleFileSuccess"
@@ -84,6 +83,7 @@
 <script>
 // import Brandcrumb from '@/components/Brandcrumb/index.vue'
 import { getUserInfo } from "@/utils/authority";
+
 import PageView from "@/layouts/PageView";
 import "mavon-editor/dist/css/index.css";
 export default {
@@ -102,7 +102,7 @@ export default {
       dialogImageUrl: "",
       dialogVisible: false,
       posterFile: [],
-      uploadAction: "http://" + window.location.host + "/api/file/upload",
+      uploadAction: "http://" + window.location.host + "/api/ms/file/upload",
       uploadHeaders: {},
     };
   },
@@ -110,7 +110,7 @@ export default {
     handlePublish() {
       const loading = this.$loading({
         lock: true,
-        text: "正在更新文章...",
+        text: "正在发表文章...",
         // spinner: 'el-icon-loading'
         // background: 'rgba(0, 0, 0, 0.7)'
       });
@@ -126,15 +126,14 @@ export default {
         ...this.entity,
         poster,
       };
-      // payload)
-      this.$store.dispatch("article/update", {
+      this.$store.dispatch("article/create", {
         payload,
         callback: (res) => {
           loading.close();
           if (res.code === 0) {
             this.$message.success("文章发表成功", 2000);
             // 这边跳转到版权列表
-            this.$router.push("/");
+            this.$router.push("/index/article");
           } else {
             this.$message.error(res.msg || "系统异常，请稍后再试", 2000);
           }
@@ -153,36 +152,10 @@ export default {
     },
   },
   created() {
-    const loading = this.$loading({
-      lock: true,
-      text: "正在获取文章详情...",
-      // spinner: 'el-icon-loading'
-      // background: 'rgba(0, 0, 0, 0.7)'
-    });
-
+    // 先判断store中有没有category
     (this.$store.state.category.treeData &&
       this.$store.state.category.treeData.length > 0) ||
       this.$store.dispatch("category/tree");
-
-    const id = this.$route.params.id;
-    this.$store.dispatch("article/info", {
-      payload: {
-        id,
-      },
-      callback: (res) => {
-        loading.close();
-        if (res.code === 0) {
-          this.entity = res.data;
-          res.data.poster &&
-            this.posterFile.push({
-              name: "",
-              url: res.data.poster,
-            });
-        } else {
-          this.$message.error(res.msg || "系统异常，请稍后再试", 2000);
-        }
-      },
-    });
 
     const userinfo = getUserInfo();
     this.uploadHeaders = {

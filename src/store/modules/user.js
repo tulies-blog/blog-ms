@@ -1,5 +1,5 @@
 import UserService from "@/services/user";
-import { setUserInfo, getUserInfo } from "@/utils/authority";
+import { setUserInfo, getUserInfo, clearUserInfo } from "@/utils/authority";
 
 const userService = new UserService();
 
@@ -77,6 +77,15 @@ const actions = {
     }
     if (callback) {
       callback(resp);
+    }
+  },
+  async logout({ commit }, { payload, callback }) {
+    // const { username, password } = payload
+    commit("setUserinfo", {});
+    clearUserInfo();
+
+    if (callback) {
+      callback();
     }
   },
 };

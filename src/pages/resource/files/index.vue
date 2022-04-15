@@ -6,16 +6,10 @@
           <div class="tableListOperator">
             <div class="left-operator">
               <el-button
-                type="plain"
-                icon="apconfont apcon-icon_fabu"
-                @click="handleCommandBatch('online')"
-                >启用</el-button
-              >
-              <el-button
-                type="plain"
-                icon="apconfont apcon-xiaxian"
-                @click="handleCommandBatch('offline')"
-                >锁定</el-button
+                type="primary"
+                icon="el-icon-plus"
+                @click="uploadDialogVisible = true"
+                >上传文件</el-button
               >
               <el-button
                 type="plain"
@@ -24,66 +18,104 @@
                 >删除</el-button
               >
             </div>
+            <div class="right-operator">
+              <el-input
+                clearable
+                placeholder="请输入图片路径"
+                v-model="simpleSearchObj.value"
+                class="input-with-select"
+                @clear="queryListData"
+              >
+                <el-button
+                  slot="append"
+                  icon="el-icon-search"
+                  @click="handleSearch"
+                ></el-button>
+              </el-input>
+            </div>
           </div>
           <el-table
             ref="listTable"
-            v-loading="$store.state.tag.loading.fetch"
-            :data="$store.state.tag.listData.list"
+            v-loading="$store.state.resource.loading.fetch"
+            :data="$store.state.resource.listData.list"
             tooltip-effect="dark"
             style="width: 100%; min-height: 200px"
             size="medium"
-            :header-cell-style="{ 'background-color': '#F6F8F9' }"
+            :header-cell-style="{
+              'background-color': '#F6F8F9',
+              padding: '6px 0',
+            }"
             @filter-change="handleFilterChange"
             @selection-change="handleSelectionChange"
             @sort-change="handleSortChange"
           >
-            <el-table-column
-              fixed
-              type="selection"
-              width="55"
-            ></el-table-column>
-            <el-table-column
-              fixed
-              prop="id"
-              label="ID"
-              width="70"
-            ></el-table-column>
-            <el-table-column
-              prop="name"
-              label="标签名称"
-              width="150"
-            ></el-table-column>
-            <el-table-column label="状态" width="80">
+            <el-table-column type="selection" width="55"></el-table-column>
+
+            <el-table-column label="预览" width="70">
               <template slot-scope="scope">
-                <span v-if="scope.row.status === -1" class="color-danger"
-                  >删除</span
+                <el-image
+                  :src="scope.row.url"
+                  :preview-src-list="[scope.row.url]"
+                  fit="contain"
+                  style="width: 46px; height: 46px"
                 >
-                <span v-else-if="scope.row.status === 0" class="color-info"
-                  >待发布</span
-                >
-                <span v-else-if="scope.row.status === 1" class="color-success"
-                  >正常</span
-                >
-                <span v-else-if="scope.row.status === 2" class="color-warning"
-                  >锁定</span
-                >
-                <span v-else class="color-warning">未知</span>
+                  <div
+                    slot="error"
+                    style="
+                      width: 100%;
+                      height: 100%;
+                      display: flex;
+                      align-items: center;
+                      justify-content: center;
+                      font-size: 20px;
+                    "
+                  >
+                    <i class="el-icon-picture-outline"></i>
+                  </div>
+                </el-image>
               </template>
             </el-table-column>
             <el-table-column
-              prop="createTime"
-              label="创建时间"
-              min-width="160"
-              show-overflow-tooltip
+              prop="name"
+              label="文件名"
+              width="250"
             ></el-table-column>
-            <el-table-column></el-table-column>
-            <el-table-column fixed="right" label="操作" width="80">
+            <el-table-column
+              prop="contentType"
+              label="文件类型"
+              width="120"
+            ></el-table-column>
+            <el-table-column label="文件大小" width="120">
+              <template slot-scope="scope">
+                <span
+                  >{{
+                    Math.round(parseFloat(scope.row.size / 1000) * 100) / 100
+                  }}
+                  KB</span
+                >
+              </template>
+            </el-table-column>
+            <el-table-column
+              prop="relativePath"
+              label="图片路径"
+              min-width="200"
+            ></el-table-column>
+
+            <el-table-column
+              prop="updateTime"
+              label="最后更新"
+              width="160"
+            ></el-table-column>
+            <el-table-column label="操作" width="80">
               <template slot-scope="scope">
                 <div>
-                  <el-dropdown
-                    @command="handleCommand($event, scope.row)"
-                    trigger="click"
-                  >
+                  <a class="default" @click="handleDetail(scope.row)">
+                    <i
+                      class="apconfont apcon-yanjing_xianshi"
+                      style="padding-right: 5px"
+                    />
+                  </a>
+                  <el-dropdown @command="handleCommand($event, scope.row)">
                     <span class="el-dropdown-link default-link">
                       <i class="el-icon-more" />
                     </span>
@@ -92,11 +124,11 @@
                       <el-dropdown-item command="delete">
                         删除
                       </el-dropdown-item>
-                      <el-dropdown-item command="online">
-                        发布
-                      </el-dropdown-item>
-                      <el-dropdown-item command="offline">
-                        下线
+                      <el-dropdown-item
+                        command="copy"
+                        @click.native="handleCopy(scope.row, $event)"
+                      >
+                        复制外链
                       </el-dropdown-item>
                     </el-dropdown-menu>
                   </el-dropdown>
@@ -113,7 +145,7 @@
                 :page-size="pageSize"
                 background
                 layout="total, sizes, prev, next, jumper"
-                :total="$store.state.tag.listData.total"
+                :total="$store.state.resource.listData.total"
                 @size-change="handleSizeChange"
                 @current-change="handleCurrentPageChange"
               />
@@ -122,24 +154,38 @@
         </div>
       </el-card>
     </div>
-    <!-- <detail-box v-if="detailDialogVisible" :visible.sync="detailDialogVisible" :row="currentRow" /> -->
-    <!-- <upload-Select v-if="uploadDialogVisible" :visible.sync="uploadDialogVisible"></upload-Select> -->
+    <detail-box
+      v-if="detailDialogVisible"
+      :visible.sync="detailDialogVisible"
+      :row="currentRow"
+    />
+    <upload-Select
+      v-if="uploadDialogVisible"
+      :visible.sync="uploadDialogVisible"
+      @close="handleUploadClose"
+    ></upload-Select>
   </page-view>
 </template>
 
 <script>
-// import StandardTable from "@/components/standardTable/index";
+import clip from "@/utils/clipboard"; // use clipboard directly
+
+// import Brandcrumb from '@/components/Brandcrumb/index.vue'
 import PageView from "@/layouts/PageView";
+import UploadSelect from "./uploadSelect";
+import DetailBox from "./detailBox";
 
 export default {
   components: {
-    // StandardTable,
     // Brandcrumb,
     PageView,
-    // DetailBox
+    UploadSelect,
+    DetailBox,
   },
   data() {
     return {
+      detailDialogVisible: false,
+      uploadDialogVisible: false,
       multipleSelection: [],
       currentRow: null,
       pageNum: 1,
@@ -152,6 +198,11 @@ export default {
         status: "",
       },
       // 查询过滤条件
+      simpleSearchObj: {
+        key: "relativePath", // 固定为这个
+        value: "",
+      },
+      tableFilters: {},
       sorter: {}, // 排序 sortfield: 'id', sorttype: 'asc'
     };
   },
@@ -162,17 +213,6 @@ export default {
         type: "success",
         duration: 1500,
       });
-    },
-    initData() {
-      this.pageNum = 1;
-      // this.pageSize = 10
-      this.filters = {
-        id: "",
-        name: "",
-      };
-      // this.sorter = {}
-      this.$refs.listTable.clearFilter();
-      // this.$refs.listTable.clearSort()
     },
 
     toggleSelection(rows) {
@@ -185,31 +225,48 @@ export default {
       }
     },
     handleSelectionChange(val) {
+      console.log(val);
       this.multipleSelection = val;
     },
     // 获取排序参数
     getFiltersParams() {
-      const { filters } = this;
+      let searchOptions = {};
+      if (this.simpleSearchObj.key) {
+        searchOptions[this.simpleSearchObj.key] = this.simpleSearchObj.value;
+      }
+      if (this.tableFilters) {
+        searchOptions = {
+          ...searchOptions,
+          ...this.tableFilters,
+        };
+      }
       const searchParams = {};
-      const searchKeys = Object.keys(filters).filter((key) => {
+      const searchKeys = Object.keys(searchOptions).filter((key) => {
         // 这个条件是为了减少不必要的参数，一大堆查询参数看着难受。
         // 如果有特殊条件，比如就是要传空值，那么你就需要单独判断下。
-        if (filters[key] === null || filters[key] === "") {
+        if (searchOptions[key] === null || searchOptions[key] === "") {
           return false;
         }
         return true;
       });
       searchKeys.forEach((key) => {
-        searchParams[key] = filters[key];
+        searchParams[key] = searchOptions[key];
       });
       return searchParams;
     },
     // 获取检索参数
     getSorterParams() {
-      return this.sorter;
+      console.log(this.sorter);
+      if (this.sorter && this.sorter.sortfield) {
+        const { sortfield, sorttype } = this.sorter;
+        return {
+          sorter: `${sortfield} ${sorttype}`,
+        };
+      }
+      return {};
     },
     queryListData() {
-      this.$store.dispatch("tag/list", { payload: this.queryParams() });
+      this.$store.dispatch("resource/list", { payload: this.queryParams() });
     },
     // 生成查询条件
     queryParams() {
@@ -223,6 +280,7 @@ export default {
     },
     // 页码切换
     handleCurrentPageChange(val) {
+      console.log(val);
       this.pageNum = val;
       this.queryListData();
     },
@@ -238,9 +296,8 @@ export default {
       this.queryListData();
     },
     // 排序
-    handleSortChange({ prop, order }) {
-      // resp)
-      if (prop) {
+    handleSortChange({ column, prop, order }) {
+      if (prop && order) {
         this.sorter = {
           sortfield: prop,
           sorttype: order === "descending" ? "desc" : "asc",
@@ -252,11 +309,29 @@ export default {
     },
     // 表头过滤
     handleFilterChange(filters) {
+      const tableFilters = { ...this.tableFilters };
       Object.keys(filters).forEach((key) => {
-        this.filters[key] = filters[key].join(",");
+        if (filters[key] && filters[key].length > 0) {
+          tableFilters[key] = filters[key].join(",");
+        } else {
+          delete tableFilters[key];
+        }
       });
+      this.tableFilters = tableFilters;
       this.pageNum = 1; // 当前页码重置
       this.queryListData();
+    },
+    // 打开详情界面
+    handleDetail(row) {
+      console.log(row);
+      this.currentRow = row;
+      this.detailDialogVisible = true;
+    },
+    handleCopy(row, event) {
+      clip(row.url, event, {
+        successMsg: "复制外链地址成功",
+        errorMsg: "复制外链地址失败",
+      });
     },
     // 删除记录 接受一个ids数组
     handleDelete(ids) {
@@ -267,16 +342,16 @@ export default {
         type: "warning",
       })
         .then(() => {
-          self.$store.dispatch("tag/delete", {
+          self.$store.dispatch("resource/delete", {
             payload: { ids },
             callback: (resp) => {
               const { count } = resp;
               self.$message({
                 type: "success",
-                message: `成功删除${count}条数据!`,
+                message: `成功删除${count}条!`,
               });
               const { list, pageNum, pageSize, total } =
-                self.$store.state.tag.listData;
+                self.$store.state.resource.listData;
               const precount = list.length;
               // 判断一下count 是否与当前页面的记录条数相等，要是相等，就要查询前一页数据。
               if (count === precount && pageNum * pageSize >= total) {
@@ -288,40 +363,12 @@ export default {
         })
         .catch(() => {});
     },
-    handleOffline(ids) {
-      const self = this;
-      const status = 2;
-      this.$store.dispatch("tag/changeStatus", {
-        payload: { ids, status },
-        callback: (resp) => {
-          const { count } = resp;
-          self.$message({
-            type: "success",
-            message: `成功锁定${count}条数据!`,
-          });
-          // todo 暂时我先偷懒直接刷新页面吧，以后优化
-          this.queryListData();
-        },
-      });
-    },
-    handleOnline(ids) {
-      const self = this;
-      const status = 1;
-      this.$store.dispatch("tag/changeStatus", {
-        payload: { ids, status },
-        callback: (resp) => {
-          const { count } = resp;
-          self.$message({
-            type: "success",
-            message: `成功启用${count}条数据!`,
-          });
-          // todo 暂时我先偷懒直接刷新页面吧，以后优化
-          this.queryListData();
-        },
-      });
+    handleUploadClose() {
+      this.queryListData();
     },
     // 批量操作，自动获取选中的记录
     handleCommandBatch(command) {
+      // console.log(this.multipleSelection)
       if (this.multipleSelection.length < 1) {
         this.$message({
           message: "请先选择你要操作的数据！",
@@ -333,32 +380,29 @@ export default {
       if (command === "delete") {
         // 删除
         this.handleDelete(ids);
-      } else if (command === "online") {
-        // 上线
-        this.handleOnline(ids);
-      } else if (command === "offline") {
-        // 下线
-        this.handleOffline(ids);
       }
     },
 
     // 单个commad操作
     handleCommand(command, row) {
+      // console.log(rr)
+      console.log(row);
       const id = row.id;
       this.currentRow = row;
       if (command === "delete") {
         // 删除
         this.handleDelete([id]);
-      } else if (command === "online") {
-        // 上线
-        this.handleOnline([row.id]);
-      } else if (command === "offline") {
-        // 下线
-        this.handleOffline([row.id]);
+      } else if (command === "copy") {
+        // console.log('copy')
+        // this.handleCopy(row)
       }
     },
   },
   created() {
+    // const res = await new ResourceService().listData()
+    // console.log(res)
+    // this.initData()
+    console.log(111);
     this.queryListData();
   },
 };

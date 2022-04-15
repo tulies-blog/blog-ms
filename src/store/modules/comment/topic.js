@@ -48,10 +48,7 @@ const actions = {
     const { ids, status } = payload;
     let count = 0;
     for (const id of ids) {
-      const resp = await commentService.changeTopicStatus({
-        id,
-        status,
-      });
+      const resp = await commentService.changeTopicStatus(id, status);
       if (resp.code === 0) {
         count = count + 1;
       }

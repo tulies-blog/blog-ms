@@ -31,7 +31,7 @@ const actions = {
     const { ids } = payload;
     let count = 0;
     for (const id of ids) {
-      const resp = await resourceService.delete({ id });
+      const resp = await resourceService.delete(id);
       if (resp.code === 0) {
         count = count + 1;
       }

@@ -178,10 +178,26 @@
                 width="70"
               >
                 <template slot-scope="scope">
-                  <img
+                  <el-image
                     :src="scope.row.poster"
-                    style="max-width: 46px; max-height: 46px"
-                  />
+                    :preview-src-list="[scope.row.poster]"
+                    fit="contain"
+                    style="width: 46px; height: 46px"
+                  >
+                    <div
+                      slot="error"
+                      style="
+                        width: 100%;
+                        height: 100%;
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        font-size: 20px;
+                      "
+                    >
+                      <i class="el-icon-picture-outline"></i>
+                    </div>
+                  </el-image>
                 </template>
               </el-table-column>
               <el-table-column
@@ -190,7 +206,8 @@
                 fixed
                 prop="id"
                 label="ID"
-                width="70"
+                width="120"
+                show-overflow-tooltip
               ></el-table-column>
               <el-table-column
                 :key="t"
@@ -199,6 +216,7 @@
                 prop="title"
                 label="标题"
                 min-width="250"
+                show-overflow-tooltip
               ></el-table-column>
               <el-table-column
                 :key="t"
@@ -206,6 +224,7 @@
                 prop="tags"
                 label="标签"
                 width="150"
+                show-overflow-tooltip
               ></el-table-column>
               <el-table-column
                 :key="t"

@@ -10,17 +10,17 @@ export const constantRouterMap = [
     children: [
       {
         path: "article",
-        component: () => import("../pages/blog-main/article/index.vue"),
+        component: () => import("../pages/blog/article/index.vue"),
         name: "文章管理",
       },
       {
         path: "category",
-        component: () => import("../pages/blog-main/category/index.vue"),
+        component: () => import("../pages/blog/category/index.vue"),
         name: "分类管理",
       },
       {
         path: "tag",
-        component: () => import("../pages/blog-main/tag/index.vue"),
+        component: () => import("../pages/blog/tag/index.vue"),
         name: "标签管理",
       },
     ],
@@ -34,7 +34,7 @@ export const constantRouterMap = [
     children: [
       {
         path: "write",
-        component: () => import("../pages/blog-main/article/write.vue"),
+        component: () => import("../pages/blog/article/write.vue"),
         name: "发表文章",
         meta: {
           activePath: "/index/article",
@@ -42,7 +42,7 @@ export const constantRouterMap = [
       },
       {
         path: ":id/edit",
-        component: () => import("../pages/blog-main/article/edit.vue"),
+        component: () => import("../pages/blog/article/edit.vue"),
         name: "编辑文章",
         meta: {
           activePath: "/index/article",
@@ -57,9 +57,9 @@ export const constantRouterMap = [
     icon: "el-icon-picture",
     children: [
       {
-        path: "imgs",
-        component: () => import("../pages/resource/imgs/index.vue"),
-        name: "图片管理",
+        path: "files",
+        component: () => import("../pages/resource/files/index.vue"),
+        name: "文件素材",
       },
     ],
   },

@@ -1,9 +1,10 @@
 <template>
   <el-breadcrumb class="app-breadcrumb" separator="/">
     <!-- <transition-group name="breadcrumb"> -->
-      <el-breadcrumb-item v-for="item in levelList" :key="item.path">
-        {{item.name||'首页'}}
-      </el-breadcrumb-item>
+    <el-breadcrumb-item v-for="item in levelList" :key="item.path">
+      {{ item.name || "首页" }}
+    </el-breadcrumb-item>
+
     <!-- </transition-group> -->
   </el-breadcrumb>
 </template>
@@ -13,37 +14,35 @@
 // import pathToRegexp from 'path-to-regexp'
 
 export default {
-  data () {
+  data() {
     return {
-      levelList: null
-    }
+      levelList: null,
+    };
   },
   watch: {
-    $route () {
-      this.getBreadcrumb()
-    }
+    $route() {
+      this.getBreadcrumb();
+    },
   },
-  created () {
-    this.getBreadcrumb()
+  created() {
+    this.getBreadcrumb();
   },
   methods: {
     // generateTitle,
-    getBreadcrumb () {
-      let matched = this.$route.matched.filter(item => {
+    getBreadcrumb() {
+      let matched = this.$route.matched.filter((item) => {
         if (item.name) {
-          return true
+          return true;
         }
-      })
+      });
       // const first = matched[0]
       // if (first && first.name.trim().toLocaleLowerCase() !== 'Dashboard'.toLocaleLowerCase()) {
       //   matched = [{ path: '/dashboard', meta: { title: 'dashboard' } }].concat(
       //     matched
       //   )
       // }
-      matched = [{ path: '/', name: '首页' }].concat(
-        matched
-      )
-      this.levelList = matched
+      matched = [{ path: "/", name: "首页" }].concat(matched);
+      this.levelList = matched;
     },
     // pathCompile (path) {
     //   // To solve this problem https://github.com/PanJiaChen/vue-element-admin/issues/561
@@ -51,16 +50,16 @@ export default {
     //   var toPath = pathToRegexp.compile(path)
     //   return toPath(params)
     // },
-    handleLink (item) {
-      const { redirect, path } = item
+    handleLink(item) {
+      const { redirect, path } = item;
       if (redirect) {
-        this.$router.push(redirect)
-        return
+        this.$router.push(redirect);
+        return;
       }
-      this.$router.push(this.pathCompile(path))
-    }
-  }
-}
+      this.$router.push(this.pathCompile(path));
+    },
+  },
+};
 </script>
 
 <style rel="stylesheet/scss" lang="scss" scoped>

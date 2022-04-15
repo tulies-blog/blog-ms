@@ -23,13 +23,13 @@
         <i class="split-line-icon apconfont apcon-icon-vertical-divider" />
         <el-dropdown @command="handleCommand">
           <span class="el-dropdown-link">
-            <!-- {{ $store.state.uc.userinfo.user.nickName }} -->
-            Wang Jiayang
+            {{ $store.state.user.userinfo.nickname }}
+            <!-- Wang Jiayang -->
             <i class="el-icon-arrow-down el-icon--right" />
           </span>
           <el-dropdown-menu slot="dropdown">
-            <el-dropdown-item command="modify"> 修改密码 </el-dropdown-item>
-            <el-dropdown-item divided command="logout"> 注销 </el-dropdown-item>
+            <el-dropdown-item command="modify">修改密码</el-dropdown-item>
+            <el-dropdown-item divided command="logout">退出</el-dropdown-item>
             <el-dropdown-item>清除缓存</el-dropdown-item>
           </el-dropdown-menu>
         </el-dropdown>
@@ -53,12 +53,15 @@ export default {
   },
   mounted() {},
   methods: {
-    handleCommand() {
-      // if (command === 'logout') {
-      //   this.$store.dispatch('uc/logout')
-      // } else if (command === 'modify') {
-      //   this.$router.push('/uc/modify')
-      // }
+    handleCommand(command) {
+      if (command === "logout") {
+        console.log("hahah");
+        this.$store.dispatch("user/logout", {
+          callback: () => {
+            this.$router.replace("/user/login");
+          },
+        });
+      }
     },
     handleClose() {
       this.messageDialogVisible = false;

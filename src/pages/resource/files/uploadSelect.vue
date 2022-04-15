@@ -42,7 +42,8 @@ export default {
   },
   data() {
     return {
-      uploadAction: "http://" + window.location.host + "/api/resource/upload",
+      uploadAction:
+        "http://" + window.location.host + "/api/ms/resources/upload",
       uploadHeaders: {},
       fileList: [
         // { name: 'food.jpeg', url: 'https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100' },
@@ -58,6 +59,7 @@ export default {
     handlePreview(file) {},
     handleClose() {
       this.$emit("update:visible", false);
+      this.$emit("close");
     },
   },
   created() {

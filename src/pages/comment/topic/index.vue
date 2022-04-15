@@ -17,12 +17,12 @@
                 @click="handleCommandBatch('offline')"
                 >锁定</el-button
               >
-              <el-button
+              <!-- <el-button
                 type="plain"
                 icon="el-icon-delete"
                 @click="handleCommandBatch('delete')"
                 >删除</el-button
-              >
+              > -->
             </div>
             <div class="right-operator">
               <el-input
@@ -86,17 +86,18 @@
             <el-table-column
               prop="tid"
               label="帖子ID"
-              width="60"
+              width="120"
+              show-overflow-tooltip
             ></el-table-column>
             <el-table-column
               prop="repliedCount"
               label="评论数"
-              width="80"
+              width="100"
               sortable
             ></el-table-column>
             <el-table-column
               label="审核类型"
-              width="80"
+              width="120"
               column-key="checkMode"
               :filters="[
                 { text: '先发后审', value: 0 },
@@ -121,23 +122,19 @@
               column-key="status"
               :filters="[
                 { text: '删除', value: -1 },
-                { text: '待审核', value: 0 },
                 { text: '正常', value: 1 },
-                { text: '未通过', value: 2 },
+                { text: '锁定', value: 2 },
               ]"
             >
               <template slot-scope="scope">
                 <span v-if="scope.row.status === -1" class="color-danger"
                   >删除</span
                 >
-                <span v-else-if="scope.row.status === 0" class="color-info"
-                  >待审核</span
-                >
                 <span v-else-if="scope.row.status === 1" class="color-success"
                   >正常</span
                 >
                 <span v-else-if="scope.row.status === 2" class="color-warning"
-                  >未通过</span
+                  >锁定</span
                 >
                 <span v-else class="color-warning">未知</span>
               </template>
@@ -166,12 +163,11 @@
                     <span class="el-dropdown-link default-link">
                       <i class="el-icon-more" />
                     </span>
-                    <!-- @click="handleCommand('lock',scope)" -->
                     <el-dropdown-menu slot="dropdown">
-                      <el-dropdown-item command="delete">删除</el-dropdown-item>
-                      <el-dropdown-item command="online">发布</el-dropdown-item>
+                      <!-- <el-dropdown-item command="delete">删除</el-dropdown-item> -->
+                      <el-dropdown-item command="online">启用</el-dropdown-item>
                       <el-dropdown-item command="offline"
-                        >下线</el-dropdown-item
+                        >锁定</el-dropdown-item
                       >
                     </el-dropdown-menu>
                   </el-dropdown>

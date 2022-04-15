@@ -78,6 +78,7 @@
             <el-table-column type="expand">
               <template slot-scope="props">
                 <el-form
+                  style="padding-left: 80px"
                   label-position="left"
                   inline
                   class="table-expand"
@@ -112,9 +113,10 @@
                   <div>
                     <el-form-item label="评论者">
                       <span
-                        >{{ props.row.username }}（{{
-                          props.row.userid
-                        }}）</span
+                        >{{ props.row.username
+                        }}<span v-if="props.row.userid"
+                          >({{ props.row.userid }})</span
+                        ></span
                       >
                     </el-form-item>
                     <el-form-item label="文章">
@@ -138,7 +140,7 @@
                   <el-divider content-position="left">其他信息</el-divider>
                   <div>
                     <el-form-item label="点赞数">
-                      <span>{{ props.row.supportCount }}</span>
+                      <span>{{ props.row.diggCount }}</span>
                     </el-form-item>
                     <el-form-item label="回复层级">
                       <span>{{ props.row.grade }}</span>
@@ -177,7 +179,8 @@
             <el-table-column
               prop="tid"
               label="帖子ID"
-              width="80"
+              width="120"
+              show-overflow-tooltip
             ></el-table-column>
             <el-table-column
               prop="userid"
@@ -190,9 +193,9 @@
               width="100"
             ></el-table-column>
             <el-table-column
-              prop="supportCount"
+              prop="diggCount"
               label="点赞数"
-              width="80"
+              width="100"
               sortable
             ></el-table-column>
             <el-table-column
@@ -244,14 +247,19 @@
             <el-table-column fixed="right" label="操作" width="80">
               <template slot-scope="scope">
                 <div>
-                  <el-dropdown
+                  <a
+                    class="default"
+                    @click="handleCommand('delete', scope.row)"
+                  >
+                    <i class="el-icon-delete" style="padding: 0 10px" />
+                  </a>
+                  <!-- <el-dropdown
                     @command="handleCommand($event, scope.row)"
                     trigger="click"
                   >
                     <span class="el-dropdown-link default-link">
                       <i class="el-icon-more" />
                     </span>
-                    <!-- @click="handleCommand('lock',scope)" -->
                     <el-dropdown-menu slot="dropdown">
                       <el-dropdown-item command="delete">删除</el-dropdown-item>
                       <el-dropdown-item command="online">发布</el-dropdown-item>
@@ -259,7 +267,7 @@
                         >下线</el-dropdown-item
                       >
                     </el-dropdown-menu>
-                  </el-dropdown>
+                  </el-dropdown> -->
                 </div>
               </template>
             </el-table-column>

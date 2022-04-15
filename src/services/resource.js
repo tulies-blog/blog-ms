@@ -4,13 +4,12 @@ export default class ResourceService extends Base {
     // const resp = await this.$curl('/api/api/list', {
     //   params
     // })
-    const resp = await this.request("/resource/list", { params });
+    const resp = await this.request("/resources", { params });
     return resp;
   }
-  async delete(data) {
-    const resp = await this.request(`/resource/delete`, {
-      method: "POST",
-      data,
+  async delete(id) {
+    const resp = await this.request(`/resources/${id}`, {
+      method: "DELETE",
     });
     return resp;
   }

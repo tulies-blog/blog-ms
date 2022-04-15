@@ -1,20 +1,18 @@
 import Base from "./base";
 export default class UserService extends Base {
   async listTopic(params) {
-    const resp = await this.request("/comment/topic/list", { params });
+    const resp = await this.request("/comment/topics", { params });
     return resp;
   }
-  async deleteTopic(data) {
-    const resp = await this.request(`/comment/topic/delete`, {
+  async deleteTopic(id) {
+    const resp = await this.request(`/comment/topics/{id}`, {
       method: "POST",
-      data,
     });
     return resp;
   }
-  async changeTopicStatus(data) {
-    const resp = await this.request(`/comment/topic/changeStatus`, {
-      method: "POST",
-      data,
+  async changeTopicStatus(id, status) {
+    const resp = await this.request(`/comment/topics/${id}/status/${status}`, {
+      method: "PATCH",
     });
     return resp;
   }
@@ -23,25 +21,23 @@ export default class UserService extends Base {
    *  下面是reply的东西
    */
   async listReply(params) {
-    const resp = await this.request("/comment/reply/list", { params });
+    const resp = await this.request("/comment/replys", { params });
     return resp;
   }
-  async deleteReply(data) {
-    const resp = await this.request(`/comment/reply/delete`, {
-      method: "POST",
-      data,
+  async deleteReply(id) {
+    const resp = await this.request(`/comment/replys/${id}`, {
+      method: "DELETE",
     });
     return resp;
   }
-  async changeReplyStatus(data) {
-    const resp = await this.request(`/comment/reply/changeStatus`, {
-      method: "POST",
-      data,
+  async changeReplyStatus(id, status) {
+    const resp = await this.request(`/comment/replys/${id}/status/${status}`, {
+      method: "PATCH",
     });
     return resp;
   }
   async info(id) {
-    const resp = await this.request(`/comment/reply/info/${id}`);
+    const resp = await this.request(`/comment/replys/${id}`);
     return resp;
   }
 }
