@@ -83,7 +83,7 @@ const actions = {
     // const { username, password } = payload
     commit("setUserinfo", {});
     clearUserInfo();
-
+    window.location.replace("/user/login");
     if (callback) {
       callback();
     }
