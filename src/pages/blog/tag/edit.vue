@@ -42,6 +42,8 @@
 </template>
 
 <script>
+import { getUserInfo } from "@/utils/authority";
+
 export default {
   props: {
     row: { type: Object, default: null },
@@ -63,6 +65,14 @@ export default {
       coverFile: [],
       uploadAction: "http://" + window.location.host + "/api/ms/file/upload",
       uploadHeaders: {},
+    };
+  },
+
+  created() {
+    const userinfo = getUserInfo();
+    this.uploadHeaders = {
+      ...this.uploadHeaders,
+      ssotoken: userinfo.userToken,
     };
   },
   mounted() {
